@@ -93,25 +93,8 @@ jQuery( function( e ) {
 	// Clear all filters
 	// TODO: Bind to Escape key
 	jQuery( '#filter-clear' ).click( function( e ) {
-		jQuery( '#wi_filters .filter-text input' ).val( '' );
+		wi_clear_all_filters( );
 
-		jQuery( '#wi_filters .filter-dropdown' ).each( function( e ) {
-			jQuery( this ).find( 'span.filter-title' ).text( jQuery( this ).find( 'span.filter-title' ).attr( 'data-default' ) );
-		} );
-
-		jQuery( '#wi_filters .filter-dropdown-single' ).each( function( e ) {
-			jQuery( this ).removeAttr( 'data-value' );
-		} );
-
-		jQuery( '#wi_filters .filter-dropdown-multi' ).each( function( e ) {
-			jQuery( this ).attr( 'data-value', '' );
-			jQuery( this ).find( 'span.filter-title' ).text( jQuery( this ).find( 'span.filter-title' ).attr( 'data-default' ) );
-			jQuery( this ).find( 'a.checked' ).removeClass( 'checked' );
-		} );
-
-		wi_apply_sort( 'assignee', 'asc' );
-
-		wi_refresh_table( );
 		e.preventDefault( );
 	} );
 
@@ -308,4 +291,28 @@ function wi_sort_by_status( items, sort_order ) {
 	} );
 
 	return items;
+}
+
+function wi_clear_all_filters( refresh = true ) {
+	jQuery( '#wi_filters .filter-text input' ).val( '' );
+
+	jQuery( '#wi_filters .filter-dropdown' ).each( function( e ) {
+		jQuery( this ).find( 'span.filter-title' ).text( jQuery( this ).find( 'span.filter-title' ).attr( 'data-default' ) );
+	} );
+
+	jQuery( '#wi_filters .filter-dropdown-single' ).each( function( e ) {
+		jQuery( this ).removeAttr( 'data-value' );
+	} );
+
+	jQuery( '#wi_filters .filter-dropdown-multi' ).each( function( e ) {
+		jQuery( this ).attr( 'data-value', '' );
+		jQuery( this ).find( 'span.filter-title' ).text( jQuery( this ).find( 'span.filter-title' ).attr( 'data-default' ) );
+		jQuery( this ).find( 'a.checked' ).removeClass( 'checked' );
+	} );
+
+	wi_apply_sort( 'assignee', 'asc' );
+
+	if( refresh == true ) {
+		wi_refresh_table( );
+	}
 }

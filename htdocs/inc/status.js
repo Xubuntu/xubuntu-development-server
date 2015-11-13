@@ -114,6 +114,9 @@ function open_tab( ) {
 		jQuery( '#content' ).css( 'height', 'auto' );
 		jQuery( '#content .inside' ).css( 'width', '90%' );
 	}
+	if( tab != '#tab-details' ) {
+		wi_clear_all_filters( false );
+	}
 
 	// Run actions specific to tabs
 	if( tab == '#tab-details' ) {
