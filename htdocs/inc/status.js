@@ -77,17 +77,24 @@ function draw_burndown_line( ) {
 	jQuery( '#burndown_chart' ).append( jQuery( burndown_line ) );
 }
 
-function resize_irc_iframe( ) {
+function resize_content_full( ) {
+	jQuery( '#footer' ).hide( );
+	jQuery( '#content' ).css( 'height', '0' );
+	jQuery( '.full' ).css( 'margin-bottom', '0' );
+	jQuery( '#content .inside' ).css( 'width', '100%' );
+}
+
+function resize_iframe_full( frame_id ) {
 	content_padding = jQuery( '#content' ).css( 'padding-top' );
 
-	jQuery( '#irc-frame' ).css( 'margin-top', '-' + content_padding );
+	jQuery( frame_id ).css( 'margin-top', '-' + content_padding );
 
 	viewport_height = jQuery( window ).height( );
 	header_height = jQuery( '#header' ).height( );
 	body_border = jQuery( 'body' ).css( 'border-top-width' );
 	frame_height = parseInt( viewport_height ) - parseInt( header_height ) - parseInt( body_border ) - 12;
 
-	jQuery( '#irc-frame' ).css( 'height', frame_height + 'px' );
+	jQuery( frame_id ).css( 'height', frame_height + 'px' );
 }
 
 function open_tab( ) {
@@ -186,6 +193,14 @@ function open_tab( ) {
 		// Draw the burndown line
 		draw_burndown_line( );
 	}
+	if( tab == '#tab-wiki' ) {
+		if( jQuery( '#wiki-frame' ).attr( 'src' ).length < 1 ) {
+			jQuery( '#wiki-frame' ).attr( 'src', iframe_src.wiki );
+		}
+
+		resize_content_full( );
+		resize_iframe_full( '#wiki-frame' );
+	}
 	if( tab == '#tab-calendar' ) {
 		if( jQuery( '#calendar-frame' ).attr( 'src' ).length < 1 ) {
 			jQuery( '#calendar-frame' ).attr( 'src', iframe_src.calendar );
@@ -196,11 +211,7 @@ function open_tab( ) {
 			jQuery( '#irc-frame' ).attr( 'src', iframe_src.irc );
 		}
 
-		jQuery( '#footer' ).hide( );
-		jQuery( '#content' ).css( 'height', '0' );
-		jQuery( '#irc' ).css( 'margin-bottom', '0' );
-		jQuery( '#content .inside' ).css( 'width', '100%' );
-
-		resize_irc_iframe( );
+		resize_content_full( );
+		resize_iframe_full( '#irc-frame' );
 	}
 }

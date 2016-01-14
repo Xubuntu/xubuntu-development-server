@@ -124,8 +124,13 @@ function teams_js( ) {
 function iframe_srcs( ) {
 	echo '<script type="text/javascript">';
 	echo 'var iframe_src = { ';
-	echo '"calendar": "https://www.google.com/calendar/embed?showTitle=0&showPrint=0&showTabs=0&showCalendars=0&height=400&wkst=2&bgcolor=%23ffffff&src=383qgn907l43kd425bteqjg850%40group.calendar.google.com&color=%232952A3&src=e_2_en%23weeknum%40group.v.calendar.google.com&color=%23856508&src=383qgn907l43kd425bteqjg850%40group.calendar.google.com&color=%23528800&ctz=Etc%2FGMT",';
+	echo '"calendar": "https://www.google.com/calendar/embed?showTitle=0&showPrint=0&showTabs=0&showCalendars=0&height=400&wkst=2&bgcolor=%23ffffff';
+		echo '&src=383qgn907l43kd425bteqjg850%40group.calendar.google.com&color=%232952A3';	// Xubuntu Team calendar
+		echo '&src=e_2_en%23weeknum%40group.v.calendar.google.com&color=%23856508';	// Week numbers
+		echo '&src=f9ep8rig01nkuegrpcdh6jnl3udn0624%40import.calendar.google.com&color=%231B887A';	// Trello: testing schedule
+	echo '&ctz=Etc%2FGMT",';
 	echo '"irc": "http://webchat.freenode.net/?channels=xubuntu-devel&nick=tracker.&prompt=1&uio=MTE9MjE131",';
+	echo '"wiki": "http://wiki.xubuntu.org/",';
 	echo '};';
 	echo '</script>';
 

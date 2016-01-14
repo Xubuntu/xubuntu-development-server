@@ -54,6 +54,11 @@
 			<?php show_timeline( ); ?>
 		</div>
 
+		<div class="data-tab show-on-js" id="wiki" class="full" data-link-title="Wiki" data-link-align="right">
+			<h2 class="no-js hide-on-js">Wiki</h2>
+			<iframe id="wiki-frame" style="width: 100%; height: 200px;" src=""></iframe>
+		</div>
+
 		<div class="data-tab show-on-js" id="calendar" data-link-title="Calendar" data-link-align="right">
 			<h2 class="no-js">Team Calendar</h2>
 			<iframe id="calendar-frame" src="" width="900" height="410" frameborder="0" scrolling="no"></iframe>
@@ -63,7 +68,7 @@
 			</ul>
 		</div>
 
-		<div class="data-tab show-on-js" id="irc" data-link-title="IRC" data-link-align="right">
+		<div class="data-tab show-on-js" id="irc" class="full" data-link-title="IRC" data-link-align="right">
 			<h2 class="no-js hide-on-js">IRC</h2>
 			<iframe id="irc-frame" style="width: 100%; height: 200px;" src=""></iframe>
 		</div>
