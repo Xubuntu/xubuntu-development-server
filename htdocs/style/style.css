@@ -140,6 +140,9 @@ ul { }
 .data-tab {
 	margin-bottom: 1em;
 }
+	.data-tab.full {
+		margin-bottom: 0;
+	}
 
 /*
  *  Table: Progress overview
