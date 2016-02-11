@@ -16,13 +16,13 @@ mail_reminders( );
 function mail_reminders( ) {
 	global $mail_prefs;
 
-	foreach( $mail_prefs as $options ) {
+	foreach( $mail_prefs['users'] as $user ) {
 		/* If the interval isn't set, don't send mail */
-		if( isset( $options['interval'] ) ) {
+		if( isset( $user['interval'] ) ) {
 			/* Send mail if the interval is 'weekly' and it's Monday, or if the interval is 'daily' */
-			if( ( $options['interval'] == 'weekly' && date( 'N' ) == 1 )
-				|| $options['interval'] == 'daily' ) {
-				send_reminder( $options['nick'], $options['email'] );	
+			if( ( $user['interval'] == 'weekly' && date( 'N' ) == 1 )
+				|| $user['interval'] == 'daily' ) {
+				send_reminder( $user['nick'], $user['email'] );	
 			}
 		}
 	}
@@ -33,11 +33,11 @@ function mail_reminders( ) {
  */
 
 function send_reminder( $nick, $mail ) {
-	global $db, $default_series;
+	global $db, $default_series, $mail_prefs;
 
 	$old_status = ''; $i = 0;
 
-	$headers = 'From: noreply@tracker.xubuntu.org';
+	$headers = 'From: ' . $mail_prefs['from'];
 	$subject = 'Summary of open work items';
 
 	$query = $db->prepare( 'SELECT * FROM users WHERE nick = :nick LIMIT 1' );
@@ -61,9 +61,9 @@ function send_reminder( $nick, $mail ) {
 	$message .= "\n";
 
 	$message .= "For the list of your work items, go to:\n";
-	$message .= "http://tracker.xubuntu.org/#tab-details/a=" . $nick  . "\n\n";
+	$message .= $mail_prefs['tracker_baseurl'] . "#tab-details/a=" . $nick  . "\n\n";
 
-	$message .= "--\nSent automatically by the Xubuntu status tracker\nhttp://tracker.xubuntu.org/";
+	$message .= "--\nSent automatically by the " . $mail_prefs['tracker_title'] . "\n" . $mail_prefs['tracker_baseurl'];
 
 	if( $i > 0 ) {
 		mail( $mail, $subject, $message, $headers );
