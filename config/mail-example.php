@@ -1,14 +1,18 @@
 <?php
 
-/*  Modify this file to include people who want mail reminders
- *  and rename to 'mail.php'
+/*  Modify this file with your tracker information and people who want mail
+ *  reminders and rename to 'mail.php'
  *
  */
 
+global $mail_prefs;
+
+$mail_prefs['from'] = 'noreply@example.com';
+$mail_prefs['tracker_baseurl'] = 'http://tracker.example.com/';
+$mail_prefs['tracker_title'] = 'Status tracker';
+
 # 'nick' is a Launchpad ID
 # 'interval' is either 'daily' or 'weekly'
-
-global $mail_prefs;
 
 $mail_prefs = array(
 	array(
