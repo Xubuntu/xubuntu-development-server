@@ -1,155 +1,168 @@
-body {
-	background-color: #ddd;
-	font-family: 'Ubuntu', sans-serif;
+/* TODO: Move to main stylesheets!!! */
 
-	border-top: 0.4em solid rgba( 0, 0, 0, 0.1 );
+/* style-common.css */
+table th {
+	padding: 3px;
+	background-color: rgba( 0, 0, 0, 0.03 );
 }
-
-/*
- *  Elements
- * 
- */ 
-
-a {
-	color: #2c82dd;
-}
-	#footer a {
-		color: #444;
-	}
-
-h1 {
-	font-size: 200%;
-	margin-top: 0.7em;
-	margin-bottom: 0.5em;
-	line-height: 1.2em;
-}
-
-h2 {
-	display: inline-block;
-	padding: 0;
-	margin: 0.5em 0 1em 0;
-	color: #555;
-}
-	h2.no-js {
-		padding: 0.3em 0 0 0;
-		margin: 1em 0 1.2em 0;
-		border-top: 2px solid rgba( 44, 130, 221, 0.5 );
-	}
-
-h3 {
-	margin: 0;
-}
-
-hr {
-	border: none;
-	border-top: 1px dotted rgba( 0, 0, 0, 0.3 );
-}
-
-table {
-	width: 100%;
-	border-bottom: 1px dotted rgba( 0, 0, 0, 0.1 );
-}
-	table tr {
-		border-top: 1px dotted rgba( 0, 0, 0, 0.1 );
-	}
-		table tbody tr:hover {
-			background-color: rgba( 44, 130, 221, 0.05 );
-		}
-		table td {
-			padding: 0.35em 0.5em;
-		}
-		table th {
-			text-align: left;
-			padding: 0.5em;
-
-			font-weight: bold;
-		}
-
-ul { }
-	ul li { }
-		li ul { padding-left: 2em; }
-
-/*
- *  Layouting
- *
- */
-
-.inside {
-	width: 90%;
-	margin: 0 auto;
-}
-
-#header {
-	background-color: #f1f1f1;
-
-	padding: 1px 0 0.5em 0;
-}
-
-#content {
-	background-color: #fff;
-	padding: 1.5em 0;
-
-	box-shadow: 0 0 0.5em rgba( 0, 0, 0, 0.2 );
-}
-
-#footer {
-	padding: 1em 0 2em 0;
-
-	font-size: 90%;
-	color: #777;
-}
-	#footer p {
-		margin-bottom: 0;
-	}
 
 /*
  *  Tabs
  *
  */
 
-.data-tabs {
-	margin-bottom: 0;
-}
-	.data-tabs a {
-		display: inline-block;
-
-		padding: 0.5em 1em;
-		margin-right: 1em;
-		margin-bottom: 1em;
-
-		background-color: rgba( 0, 0, 0, 0.075 );
-		background-color: rgba( 255, 255, 255, 0.75 );
-	}
-		.data-tabs a.current {
-			background-color: rgba( 17, 91, 171, 0.75 );
-			color: #fff;
-		}
-		.data-tabs .right {
-			float: right;
-		}
-			.data-tabs .right a:last-child {
-				margin-right: 0;
-			}
-			@media screen and (max-width: 600px) {
-				.data-tabs .right {
-					display: inline;
-					float: none;
-				}
-			}
-
 .data-tab {
-	margin-bottom: 1em;
+	margin: 0 35px;
 }
-	.data-tab.full {
-		margin-bottom: 0;
+	.data-tab .data {
+		font-size: 90%;
 	}
+
+.data-tab.tab-full {
+	margin: -45px 0 -78px 0;
+}
+	.data-tab.tab-full h1.post-title {
+		display: none;
+	}
+	.data-tab.tab-full iframe {
+		border-radius: 4px;
+	}
+
+
+/*
+ *  Elements
+ *
+ */
+
+iframe {
+	width: 100%;
+}
+
+table {
+	border-bottom: 1px dotted rgba( 0, 0, 0, 0.1 );
+	font-size: 95%;
+}
+	table th,
+	table td {
+		border: none;
+		border-top: 1px dotted rgba( 0, 0, 0, 0.1 );
+	}
+		table td {
+			background-color: transparent;
+		}
+
+ul li {
+	list-style-type: none;
+	margin-left: 0;
+}
+
+
+/*
+ *  Common classes
+ *
+ */
+
+.show-on-js {
+	display: none;
+}
+
+div.bar {
+	margin: 0;
+	padding: 0.2em;
+
+	border: 1px solid rgba( 0, 0, 0, 0.3 );
+
+	color: rgba( 0, 0, 0, 0.85 );
+	text-align: center;
+	text-shadow: 0 0 0.3em rgba( 255, 255, 255, 1 );
+
+	background-repeat: no-repeat !important;
+
+	min-width: 100px;
+}
+
+/*  Column-specific tweaks  */
+table .actions {
+	width: 120px;
+}
+	table .actions a { margin-right: 0.5em; }
+table .assignee,
+table .specification {
+	width: 140px;
+}
+table .specification-link {
+	width: 20px;
+}
+
+/* Link colors */
+table .actions a,
+table .specification-link a { color: rgba( 0, 0, 0, 0.4 ); }
+
+
+
+/*
+ */
+
+table td.hide-repeat-username {
+	border: none;
+	visibility: hidden;
+}
+	table td.hide-repeat-username a {
+		display: none;
+	}
+
+/*  Hide filtered items  */
+table .filter-assignee-hide,
+table .filter-specification-hide,
+table .filter-status-hide,
+table .filter-text-hide {
+	display: none; 
+}
+
+/*  Column sort visualization  */
+table .sort { }
+	table .sort span {
+		border-bottom: 1px solid rgba( 0, 0, 0, 0.25 );
+	}
+	table .sort:after {
+		margin-left: 0.5em;
+		color: rgba( 0, 0, 0, 0.5 );
+	}
+		table .sort-asc:after { content: "▾"; }
+		table .sort-desc:after { content: "▴"; }
+
+/*  Show pointer on column headers  */
+#workitems th {
+	cursor: pointer;
+}
+
+/*
+ *  Work Item Details
+ *
+ */ 
+
+/* Item status visualizations */
+table .item:before { font-size: 80%; margin-right: 0.5em; }
+table .item-done { color: rgba( 0, 0, 0, 0.3 ); text-decoration: line-through; }
+table .item-inprogress:before { color: rgba( 220, 180, 80, 0.8 ); content: "WIP"; }
+table .item-blocked:before { color: rgba( 180, 60, 60, 1 ); content: "BLOCKED"; }
+table .item-postponed { color: rgba( 0, 0, 0, 0.15 ); }
+	table .item-postponed span { text-decoration: line-through; }
+	table .item-postponed:before { content: "POSTPONED"; }
 
 /*
  *  Table: Progress overview
  *
  */
 
-table .progress_bar { width: 20%; padding: 0; }
+table .progress_bar {
+	width: 20%;
+	padding: 0;
+}
+	table .progress_bar .bar {
+		padding: 0 0.2em;
+		margin: 0.2em 0;
+	}
 
 table.progress tr.whiteboard {
 	display: none;
@@ -239,6 +252,7 @@ table.progress tr.whiteboard {
 		position: absolute;
 
 		width: 400px;
+		font-size: 90%;
 
 		transform: rotate( -90deg );
 		transform-origin: 0 0;
@@ -268,11 +282,13 @@ table.progress tr.whiteboard {
  */
 
 ul.timeline li {
-	padding: 0.35em 0;
+	padding: 0.1em 0;
+
 	border-bottom: 1px dotted rgba( 0, 0, 0, 0.1 );
 }
 	ul.timeline li.group-title {
 		font-size: 125%;
+		margin-bottom: 0;
 		padding-top: 1.5em;
 		color: #888;
 	}
@@ -290,7 +306,7 @@ ul.timeline li {
 		ul.timeline li.done span.date:empty {
 			margin-top: -0.4em;
 			height: 1em;
-			border-top: 1px solid #fff;
+			border-top: 1px solid #fafafa;
 		}
 
 	ul.timeline li.done span.assignee,
@@ -301,111 +317,17 @@ ul.timeline li {
 		ul.timeline li.done span.specification { opacity: 0.35; }
 
 /*
- *  Calendar
- *
- */
-
-#calendar-frame {
-	width: 100%;
-}
-
-/*
- *  Common classes
- *
- */
-
-.show-on-js {
-	display: none;
-}
-
-div.bar {
-	margin: 0;
-	padding: 0.2em;
-
-	border: 1px solid rgba( 0, 0, 0, 0.3 );
-
-	color: rgba( 0, 0, 0, 0.85 );
-	text-align: center;
-	text-shadow: 0 0 0.3em rgba( 255, 255, 255, 1 );
-
-	background-repeat: no-repeat !important;
-
-	min-width: 100px;
-}
-
-table thead,
-table .total {
-	background-color: rgba( 0, 0, 0, 0.05 ) !important;
-}
-
-table .actions,
-table .specification,
-table .specification-link {
-	font-size: 90%;
-}
-	table th.specification { font-size: 100%;	}
-
-/* Column widths */
-table .actions {
-	width: 120px;
-}
-table .assignee,
-table .specification {
-	width: 140px;
-}
-table .specification-link {
-	width: 20px;
-}
-
-/* Link colors */
-table .item a { color: #567eab; }
-table .actions a,
-table .specification-link a { color: rgba( 0, 0, 0, 0.4 ); }
-	table .actions a { margin-right: 0.5em; }
-
-/* Item status visualizations */
-table .item:before { font-size: 80%; margin-right: 0.5em; }
-table .item-done { color: rgba( 0, 0, 0, 0.3 ); text-decoration: line-through; }
-table .item-inprogress:before { color: rgba( 220, 180, 80, 0.8 ); content: "WIP"; }
-table .item-blocked:before { color: rgba( 180, 60, 60, 1 ); content: "BLOCKED"; }
-table .item-postponed { color: rgba( 0, 0, 0, 0.15 ); }
-	table .item-postponed span { text-decoration: line-through; }
-	table .item-postponed:before { content: "POSTPONED"; }
-
-/*
- */
-
-table .hide-repeat-username {
-	border-top: 1px solid #fff;
-	visibility: hidden;
-}
-
-table .filter-assignee-hide,
-table .filter-specification-hide,
-table .filter-status-hide,
-table .filter-text-hide {
-	display: none;
-}
-
-table .sort { }
-	table .sort span {
-		border-bottom: 1px solid rgba( 0, 0, 0, 0.25 );
-	}
-	table .sort:after {
-		margin-left: 0.5em;
-		color: rgba( 0, 0, 0, 0.25 );
-	}
-		table .sort-asc:after { content: "▾"; }
-		table .sort-desc:after { content: "▴"; }
-
-#workitems th {
-	cursor: pointer;
-}
-
-/*
  *  Toolbars
  *
  */
+
+.toolbar * {
+	line-height: 1.3em;
+}
+
+.toolbar a {
+	border: none;
+}
 
 .toolbar .filter,
 .toolbar .action,
@@ -415,16 +337,14 @@ table .sort { }
 	margin: 0 0.5em 1em 0;
 }
 	.toolbar .filter {
-		background-color: rgba( 44, 130, 221, 0.25 );
+		background-color: rgba( 0, 68, 170, 0.25 );
 		padding: 5px 0 5px 0.5em;
 	}
 	.toolbar .action {
 		background-color: #eee;
+		color: rgba( 0, 0, 0, 0.6 );
 		padding: 5px 0.5em 6px 0.5em;
 	}
-		.toolbar .action {
-			color: rgba( 0, 0, 0, 0.6 );
-		}
 
 .toolbar .filter a.clear {
 	padding: 5px 0.5em 6px 0.5em;
@@ -441,10 +361,10 @@ table .sort { }
 	}
 
 .toolbar .filter-text input {
-	margin: -5px 0 -5px 0.25em;
-	padding: 5px 0.5em;
+	margin: -6px 0 -5px 0.25em;
+	padding: 6px 0.5em 6px 0.5em;
 	border: none;
-	background-color: rgba( 44, 130, 221, 0.25 );
+	background-color: rgba( 255, 255, 255, 0.4 );
 }
 
 .toolbar .filter-dropdown { }
@@ -457,15 +377,11 @@ table .sort { }
 	.toolbar .filter-dropdown ul {	
 		margin: -5px 0 -5px 0.25em;
 		padding: 0;
-		background-color: #A2C7EF;
+		background-color: rgba( 255, 255, 255, 0.4 );
 	}
 		.toolbar .filter-dropdown > ul > li {
 			padding: 5px 0.5em;
 			border-bottom: 1px solid transparent;
-		}
-		.toolbar .filter-dropdown > ul:hover > li {
-			background-color: rgba( 0, 0, 0, 0.05 );
-			border-bottom: 1px solid rgba( 0, 0, 0, 0.1 );
 		}
 		.toolbar .filter-dropdown ul.items {
 			margin: 6px 0 0 -0.5em;
@@ -474,15 +390,20 @@ table .sort { }
 			.toolbar .filter-dropdown ul:hover ul.items {
 				position: absolute;
 				display: block;
+				border: 1px solid rgba( 0, 0, 0, 0.1 );
+				box-shadow: 1px 1px 1px rgba( 0, 0, 0, 0.2 );
 			}
-			.toolbar .filter-dropdown ul.items li a {
-				display: block;
-				padding: 0.2em 2em 0.2em 0.5em;
-				color: rgba( 0, 0, 0, 0.75 );
+			.toolbar .filter-dropdown ul.items li {
+				background-color: #fff;
 			}
-				.toolbar .filter-dropdown ul.items li a:hover {
-					background-color: rgba( 0, 0, 0, 0.1 );
+				.toolbar .filter-dropdown ul.items li a {
+					display: block;
+					padding: 0.2em 2em 0.2em 0.5em;
+					color: rgba( 0, 0, 0, 0.75 );
 				}
+					.toolbar .filter-dropdown ul.items li a:hover {
+						background-color: rgba( 0, 0, 0, 0.05 );
+					}
 
 .toolbar .filter-dropdown-multi { }
 .toolbar .filter-dropdown-multi ul.items li a:before {
@@ -493,6 +414,7 @@ table .sort { }
 }
 .toolbar .filter-dropdown-multi ul.items li a.checked:before { content: "✔"; }
 
+/*  Permalink  */
 #permalink_container {
 	position: relative;
 	margin-right: 0.5em;
@@ -509,4 +431,5 @@ table .sort { }
 		height: 100%;
 		color: transparent;
 		overflow: hidden;
+		font-size: 1%;
 	}

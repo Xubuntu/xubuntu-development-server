@@ -93,7 +93,7 @@ jQuery( function( e ) {
 	// Clear all filters
 	// TODO: Bind to Escape key
 	jQuery( '#filter-clear' ).click( function( e ) {
-		wi_clear_all_filters( );
+		wi_clear_all_filters( true );
 
 		e.preventDefault( );
 	} );
@@ -293,7 +293,7 @@ function wi_sort_by_status( items, sort_order ) {
 	return items;
 }
 
-function wi_clear_all_filters( refresh = true ) {
+function wi_clear_all_filters( refresh ) {
 	jQuery( '#wi_filters .filter-text input' ).val( '' );
 
 	jQuery( '#wi_filters .filter-dropdown' ).each( function( e ) {

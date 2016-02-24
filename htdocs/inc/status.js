@@ -4,29 +4,6 @@ jQuery( function( ) {
 	jQuery( '.hide-on-js' ).hide( );
 	jQuery( '.no-js' ).removeClass( 'no-js' );
 
-	// Create navigation menu
-	jQuery( '.data-tabs' ).empty( );
-	links_right = jQuery( '<div class="right">' );
-	jQuery( '.data-tab' ).each( function( e ) {
-		link_title = jQuery( this ).attr( 'data-link-title' );
-		link_url = jQuery( this ).attr( 'id' );
-		link_align = jQuery( this ).attr( 'data-link-align' );
-
-		if( jQuery( this ).hasClass( 'hidden' ) ) {
-			link = '<a style="display: none;" class="hidden" href="#tab-' + link_url + '">' + link_title + '</a>';
-		} else {
-			link = '<a href="#tab-' + link_url + '">' + link_title + '</a>';
-		}
-
-		if( link_align == 'right' ) {
-			jQuery( links_right ).append( jQuery( link ) );
-		} else {
-			jQuery( '.data-tabs' ).append( jQuery( link ) );
-		}
-	} );
-	jQuery( '.data-tabs' ).append( links_right );
-
-
 	// Update the tab content when user goes "back" or "forward" in browser
 	window.addEventListener( 'popstate', open_tab );
 
@@ -34,21 +11,21 @@ jQuery( function( ) {
 	open_tab( );
 
 	// Tabs: Handle tab opening
-	jQuery( '.data-tabs a' ).click( function( e ) {
-		// Change the URL
-		window.location.hash = jQuery( this ).attr( 'href' );
+	jQuery( '.navigation a' ).click( function( e ) {
+		// Only do this when the link target is on the same domain and the window target isn't "_blank"
+		if( this.hostname == window.location.hostname && this.getAttribute( 'target' ) != '_blank' ) {
+			// Change the URL
+			window.location.hash = jQuery( this ).attr( 'href' );
 
-		// Run required actions
-		open_tab( );
+			// Run required actions
+			open_tab( );
+		}
 	} );
 
 	// Actions to be taken on window resize
 	jQuery( window ).resize( function( e ) {
 		if( window.tab == '#tab-burndown' ) {
 			draw_burndown_line( );
-		}
-		if( window.tab == '#tab-irc' ) {
-			resize_irc_iframe( );
 		}
 	} );
 
@@ -77,26 +54,6 @@ function draw_burndown_line( ) {
 	jQuery( '#burndown_chart' ).append( jQuery( burndown_line ) );
 }
 
-function resize_content_full( ) {
-	jQuery( '#footer' ).hide( );
-	jQuery( '#content' ).css( 'height', '0' );
-	jQuery( '.full' ).css( 'margin-bottom', '0' );
-	jQuery( '#content .inside' ).css( 'width', '100%' );
-}
-
-function resize_iframe_full( frame_id ) {
-	content_padding = jQuery( '#content' ).css( 'padding-top' );
-
-	jQuery( frame_id ).css( 'margin-top', '-' + content_padding );
-
-	viewport_height = jQuery( window ).height( );
-	header_height = jQuery( '#header' ).height( );
-	body_border = jQuery( 'body' ).css( 'border-top-width' );
-	frame_height = parseInt( viewport_height ) - parseInt( header_height ) - parseInt( body_border ) - 12;
-
-	jQuery( frame_id ).css( 'height', frame_height + 'px' );
-}
-
 function open_tab( ) {
 	options = window.location.hash.split( '/' );
 	tab = options[0];
@@ -116,11 +73,6 @@ function open_tab( ) {
 	}
 
 	// Revert changes (essentially when closing a tab)
-	if( tab != '#tab-irc' ) {
-		jQuery( '#footer' ).show( );
-		jQuery( '#content' ).css( 'height', 'auto' );
-		jQuery( '#content .inside' ).css( 'width', '90%' );
-	}
 	if( tab != '#tab-details' ) {
 		wi_clear_all_filters( false );
 	}
@@ -193,25 +145,9 @@ function open_tab( ) {
 		// Draw the burndown line
 		draw_burndown_line( );
 	}
-	if( tab == '#tab-wiki' ) {
-		if( jQuery( '#wiki-frame' ).attr( 'src' ).length < 1 ) {
-			jQuery( '#wiki-frame' ).attr( 'src', iframe_src.wiki );
-		}
-
-		resize_content_full( );
-		resize_iframe_full( '#wiki-frame' );
-	}
 	if( tab == '#tab-calendar' ) {
 		if( jQuery( '#calendar-frame' ).attr( 'src' ).length < 1 ) {
 			jQuery( '#calendar-frame' ).attr( 'src', iframe_src.calendar );
 		}
-	}
-	if( tab == '#tab-irc' ) {
-		if( jQuery( '#irc-frame' ).attr( 'src' ).length < 1 ) {
-			jQuery( '#irc-frame' ).attr( 'src', iframe_src.irc );
-		}
-
-		resize_content_full( );
-		resize_iframe_full( '#irc-frame' );
 	}
 }

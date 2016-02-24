@@ -1,0 +1,100 @@
+/*  For screen sizes less than 800px wide  */
+
+#navi {
+	font-size: 92%;
+}
+	.navigation.nd .menu > li > a {
+		padding-left: 0.75em;
+		padding-right: 0.75em;
+	}
+
+#footer {
+	overflow: hidden;
+}
+
+/*  Front page 
+ *
+ */
+
+body.home .alignright,
+body.home .alignleft {
+	max-width: 310px;
+	height: auto;
+}
+
+/*  Blog pages
+ *
+ */
+
+body.single-post #main,
+body.blog #main,
+body.archive #main {
+	float: none;
+	width: auto;
+	margin: 0;
+	padding: 0 1.5em;
+}
+
+#sidebar_outer {
+	float: none;
+	width: 100%;
+	margin: 0 auto;
+}
+	#sidebar {
+		margin: 0 1.5em;
+	}
+
+/*  Widget areas 
+ *
+ */
+	.widgets_flex .widgets {
+		display: block;
+	}
+		.widgets_flex .widget {
+			width: 100% !important;
+			margin: 0 !important;
+			border: none !important;
+ 			padding: 1.5em 0 !important;
+
+			border-bottom: 1px dotted rgba( 0, 0, 0, 0.2 ) !important;
+		}
+			.widgets_flex .widget :last-child {
+				margin-bottom: 0;
+			}
+			.widgets_flex .widget:first-child {
+				padding-top: 0 !important;
+			}
+			.widgets_flex .widget:last-child {
+				border-bottom: none !important;
+				padding-bottom: 0 !important;
+			}
+
+
+/*  Featured images
+ *
+ */
+
+.post-thumbnail {
+	max-width: 50%;
+}
+
+.featured {
+	margin-bottom: 0.5em;
+}
+	.featured .image,
+	.featured .description {
+		width: 100%;
+		float: none;
+	}
+
+	.featured .image {
+		text-align: center;
+	}
+		.featured .image img {
+			float: none;
+			margin: 0 auto;
+		}
+
+	.featured .description {
+		margin-top: 1em;
+	}

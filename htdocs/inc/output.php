@@ -1,6 +1,33 @@
 <?php
 
-function show_progress( ) {
+/*  Handle printing tabs  */
+
+function print_tabs( ) {
+	$tabs = array(
+		'overview' => array( 'title' => 'Overview' ),
+		'details' => array( 'title' => 'Work item details' ),
+		'burndown' => array( 'title' => 'Burndown' ),
+		'timeline' => array( 'title' => 'Timeline' ),
+		'calendar' => array( 'title' => 'Calendar' ),
+	);
+
+	foreach( $tabs as $id => $tab ) {
+		if( isset( $tab['full'] ) ) {
+			echo "\n" . '<div class="data-tab tab-full" id="' . $id . '">';			
+		} else {
+			echo "\n" . '<div class="data-tab" id="' . $id . '">';
+		}
+		echo '<h1 class="post-title">' . $tab['title'] . '</h1>';
+		echo '<div class="post-post data">';
+		call_user_func( '_tab_' . $id );
+		echo '</div>';
+		echo '</div>';
+	}
+}
+
+
+/*  Tabs  */
+function _tab_overview( ) {
 	global $db, $series, $specs;
 
 	$query = $db->prepare( 'SELECT count(*) as count, spec, status FROM status WHERE series = :series GROUP BY spec, status' );
@@ -21,7 +48,20 @@ function show_progress( ) {
 	echo '</tr></thead>';
 	echo '<tbody>';
 
+	$green_total = 0;
+	$yellow_total = 0;
+	$total = 0;
+
 	foreach( $progress as $spec => $statuses ) {
+		if( !isset( $statuses['INPROGRESS'] ) ) {
+			$statuses['INPROGRESS']['percent'] = 0;
+			$statuses['INPROGRESS']['num'] = 0;
+		}
+		if( !isset( $statuses['DONE'] ) ) {
+			$statuses['DONE']['percent'] = 0;
+			$statuses['DONE']['num'] = 0;
+		}
+
 		$green = $statuses['DONE']['percent'];
 		$yellow = $green + $statuses['INPROGRESS']['percent'];
 
@@ -33,7 +73,7 @@ function show_progress( ) {
 		echo '<tr class="spec">';
 		echo '<td class="title"><a href="#tab-details/spec=' . $spec . '">' . $specs[$spec]['name'] . '</a></td>';
 		echo '<td class="actions">';
-		echo '<a href="' . $specs[$spec]['url'] . '">Edit</a> ';
+		echo '<a href="' . $specs[$spec]['url'] . '" target="_blank">Edit</a> ';
 		if( strlen( $specs[$spec]['whiteboard'] ) > 0 ) {
 			echo '<a class="whiteboard" href="#">Whiteboard</a>';
 		}
@@ -65,7 +105,7 @@ function show_progress( ) {
 	echo '</table>';
 }
 
-function work_items_list_new( ) {
+function _tab_details( ) {
 	global $db, $series, $specs, $users;
 
 	// NEW FILTERS
@@ -130,7 +170,7 @@ function work_items_list_new( ) {
 		echo '<td data-column="assignee" class="assignee"><a href="#tab-details">' . get_user_name( $item['nick'] ) . '</a></td>';
 		echo '<td data-column="item" class="item item-' . $data_status . '"><span>' . $item['description'] . '</span></td>';
 		echo '<td data-column="specification" class="specification"><a href="#tab-details">' . $specs[$item['spec']]['short_name'] . '</a></td>';
-		echo '<td class="specification-link"><a class="action" href="' . $specs[$item['spec']]['url'] . '">Edit</a></td>';
+		echo '<td class="specification-link"><a class="action" href="' . $specs[$item['spec']]['url'] . '" target="_blank">Edit</a></td>';
 		echo '</tr>';
 	}
 
@@ -138,7 +178,7 @@ function work_items_list_new( ) {
 	echo '</table>';
 }
 
-function show_burndown( ) {
+function _tab_burndown( ) {
 	/*
 	 *  Show the burndown chart
 	 *
@@ -223,10 +263,11 @@ function show_burndown( ) {
 	echo '</div>';
 }
 
-function show_timeline( ) {
+function _tab_timeline( ) {
 	global $db, $series, $specs;
 
-	$old_date = null;
+	$old_day = 0;
+	$old_group = 'x';
 
 	$query = $db->prepare( 'SELECT * FROM status WHERE series = :series AND status = :status ORDER BY date_done DESC, description ASC' );
 	$query->execute( array( ':series' => $series['series'], ':status' => 'DONE' ) );
@@ -263,6 +304,16 @@ function show_timeline( ) {
 		}
 		echo '</ul>';
 	}
+}
+
+function _tab_calendar( ) {
+?>
+	<iframe id="calendar-frame" src="" width="900" height="410" frameborder="0" scrolling="no"></iframe>
+		<ul>
+			<li><strong>Google calendar ID</strong> 383qgn907l43kd425bteqjg850@group.calendar.google.com</li>
+			<li><strong>Sharing</strong> <a href="https://www.google.com/calendar/feeds/383qgn907l43kd425bteqjg850%40group.calendar.google.com/public/basic">XML</a>, <a href="https://www.google.com/calendar/ical/383qgn907l43kd425bteqjg850%40group.calendar.google.com/public/basic.ics">iCal</a>, <a href="https://www.google.com/calendar/embed?src=383qgn907l43kd425bteqjg850%40group.calendar.google.com&amp;ctz=Etc/GMT">HTML</a></li>
+		</ul>
+<?php
 }
 
 ?>

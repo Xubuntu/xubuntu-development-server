@@ -20,7 +20,7 @@ function init_status( ) {
 function init_status_series( ) {
 	global $db, $series;
 
-	if( $_GET['s'] ) {
+	if( isset( $_GET['s'] ) ) {
 		$query = $db->prepare( 'SELECT * FROM series WHERE series = :series' );
 		$query->execute( array( ':series' => $_GET['s'] ) );
 		$series = $query->fetchAll( )[0];
