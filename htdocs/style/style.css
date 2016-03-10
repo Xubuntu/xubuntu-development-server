@@ -11,9 +11,6 @@ table th {
  *
  */
 
-.data-tab {
-	margin: 0 35px;
-}
 	.data-tab .data {
 		font-size: 90%;
 	}
@@ -283,9 +280,13 @@ table.progress tr.whiteboard {
 
 ul.timeline li {
 	padding: 0.1em 0;
+	margin-left: 0 !important;
 
 	border-bottom: 1px dotted rgba( 0, 0, 0, 0.1 );
 }
+	ul.timeline li::before {
+		display: none !important;
+	}
 	ul.timeline li.group-title {
 		font-size: 125%;
 		margin-bottom: 0;

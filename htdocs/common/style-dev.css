@@ -9,3 +9,13 @@
 	#header_art::before {
 		background: transparent linear-gradient( to left, rgba( 255, 255, 255, 0.2 ), rgba( 150, 204, 221, 0.5 ) );
 	}
+
+/*  Toolbars for the content area  */
+
+.post-toolbar {
+	margin: -1.25em 0 1em 0;
+	border-bottom: 1px dotted #aaa;
+}
+	.post-toolbar .tools { font-size: 85%; float: left; }
+	.post-toolbar .tools.right { float: right; }
+	.post-toolbar .tools.right a { margin: 0 0 0 1em; }

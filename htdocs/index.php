@@ -45,7 +45,16 @@
 <div id="content_outer">
 	<div id="content" class="group">
 		<div id="main_outer">
-			<?php print_tabs( ); ?>
+			<section id="main">
+				<div class="post-post">
+					<div class="post-toolbar group">
+						<p class="tools">
+							<a class="button primary" href="#tab-overview">Overview</a><a class="button" href="#tab-details">Details</a><a class="button" href="#tab-burndown">Burndown</a><a class="button" href="#tab-timeline">Timeline</a>
+						</p>
+					</div>
+					<?php print_tabs( ); ?>
+				</div>
+			</section>
 		</div>
 	</div>
 </div>
