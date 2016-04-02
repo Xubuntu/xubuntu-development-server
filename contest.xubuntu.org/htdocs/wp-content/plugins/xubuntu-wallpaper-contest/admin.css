@@ -1,6 +1,6 @@
 .submissions .item {
 	background-color: #fff;
-	padding: 1em;
+	padding: 0.75em;
 	margin-bottom: 1em;
 	box-shadow: 0 0 5px rgba( 0, 0, 0, 0.1 );
 
@@ -94,16 +94,28 @@
 /* results */
 	.submissions.results .result {
 		float: left;
-		width: 3%;
+		width: 5%;
 		margin-right: 1%;
 		padding-top: 5px;
-
-		font-size: 250%;
-		text-align: right;
 	}
+		.submissions.results .result .total {
+			font-size: 250%;
+			text-align: center;
+		}
+		.submissions.results .result .subtotal {
+			display: block;
+		}
+		.submissions.results .result .subtotal.plus {
+			float: left;
+			color: rgba( 0, 180, 0, 0.8 );
+		}
+		.submissions.results .result .subtotal.minus {
+			float: right;
+			color: rgba( 180, 0, 0, 0.8 );
+		}
 	.submissions.results .info {
 		float: left;
-		width: 81%;
+		width: 79%;
 	}
 		.submissions.results .info :first-child {
 			margin-top: 0;
@@ -130,7 +142,7 @@
 		width: 20.1%;
 		max-width: 23.5%;
 		margin-right: 1.5%;
-		padding: 1em 1em 3.75em 1em;
+		padding: 0.75em 0.75em 3.75em 0.75em;
 		box-sizing: border-box;
 	}
 		.submissions.compact .item:nth-child(4n+1):last-child { margin-right: 76.125%; }
@@ -148,3 +160,10 @@
 	.submissions.compact p {
 		margin: 0;
 	}
+
+/* featherlite styling */
+
+.featherlight-content {
+	padding: 0.75em 0.75em 0 !important;
+	border-bottom-width: 0.75em !important;
+}

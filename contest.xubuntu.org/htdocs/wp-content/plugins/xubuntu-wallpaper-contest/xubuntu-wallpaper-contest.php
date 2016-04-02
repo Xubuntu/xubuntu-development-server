@@ -3,12 +3,17 @@
  *  Plugin Name: Xubuntu Wallpaper Contest
  *  Description: Allows users to send submissions to a wallpaper contest and administrators to vote on the submissions
  *  Author: Pasi Lallinaho
- *  Version: 2016-feb
+ *  Version: 2016-apr
  *  Author URI: http://open.knome.fi/
  *  Plugin URI: http://wordpress.knome.fi/
  *
  *  License: GNU General Public License v2 or later
  *  License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ */
+
+/*
+ *  Link voting to certain roles
  *
  */
 
@@ -19,7 +24,15 @@ function xwpc_admin_init( ) {
 	$role = get_role( 'administrator' );
 	$role->add_cap( 'xwpc_vote' );
 	$role->add_cap( 'xwpc_see_results' );
+
+	$role = get_role( 'editor' );
+	$role->add_cap( 'xwpc_vote' );
 }
+
+/*
+ *  Output admin menu
+ *
+ */
 
 add_action( 'admin_menu', 'xwpc_admin_menu' );
 
@@ -27,13 +40,17 @@ function xwpc_admin_menu( ) {
 	add_object_page( 'Wallpaper Contest', 'Contest', 'read', 'xwpc_main', 'xwpc_ui_main', 'dashicons-thumbs-up' );
 	add_submenu_page( 'xwpc_main', 'Wallpaper Contest', 'Start Here', 'read', 'xwpc_main', 'xwpc_ui_main' );
 	add_submenu_page( 'xwpc_main', 'New Submission', 'New Submission', 'read', 'xwpc_new', 'xwpc_ui_new' );
-//	add_submenu_page( 'xwpc_main', 'Terms', 'Terms and Guidelines', 'read', 'xwpc_terms', 'xwpc_ui_terms' );
 
 	add_submenu_page( 'xwpc_main', 'Vote!', 'Vote!', 'xwpc_vote', 'xwpc_vote', 'xwpc_ui_vote' );
 	add_submenu_page( 'xwpc_main', 'Results', 'Vote Results', 'xwpc_see_results', 'xwpc_vote_results', 'xwpc_ui_vote_results' );
 }
 
 add_action( 'admin_enqueue_scripts', 'xwpc_admin_enqueue_scripts' );
+
+/*
+ *  Enqueue scripts
+ *
+ */
 
 function xwpc_admin_enqueue_scripts( ) {
 	// TODO: Only enqueue when needed
@@ -46,7 +63,18 @@ function xwpc_admin_enqueue_scripts( ) {
 		'user' => get_current_user_id( ),
 	);
 	wp_localize_script( 'xwpc-vote', 'xwpc', $strings );
+
+	wp_enqueue_script( 'xwpc-confirm', plugins_url( 'confirm.js', __FILE__ ), array( 'jquery' ) );
+
+	wp_enqueue_script( 'xwpc-media', plugins_url( 'media.js', __FILE__ ), array( 'jquery' ) );
+	wp_enqueue_style( 'xwpc-featherlight-css', plugins_url( 'featherlight/featherlight.min.css', __FILE__ ) );
+	wp_enqueue_script( 'xwpc-featherlight-js', plugins_url( 'featherlight/featherlight.min.js', __FILE__ ), array( 'jquery' ) );
 }
+
+/*
+ *  Add AJAX request handler for voting
+ *
+ */
 
 add_action( 'wp_ajax_xwpc_vote', 'xwpc_ajax_vote' );
 
@@ -66,6 +94,51 @@ function xwpc_ajax_vote( ) {
 
 	wp_die( );
 }
+
+/*
+ *  Add a shortcode for showing submissions publicly
+ *
+ */
+
+add_shortcode( 'xwpc_submissions', 'xwpc_submissions' );
+
+function xwpc_submissions( ) {
+	$o = '<div class="group">';
+
+	/* Get all submissions */
+	$args = array(
+		'post_parent' => null,
+		'post_type' => 'attachment',
+		'numberposts' => -1,
+		'meta_key' => 'xwpc_submission',
+		'meta_value' => '1',
+	);
+	$attachments = get_children( $args );
+
+	if( is_array( $attachments ) ) {
+		// TODO: Do not depend on hack on output
+
+		$submissions = array_keys( $attachments );
+		//$shortcode = '[gallery size="xubuntu_split_to_4" columns="4" ids="' . implode( ',', $submissions ) . '"]';
+		$args = array(
+			'size' => 'xubuntu_split_to_4',
+			'columns' => '4',
+			'ids' => implode( ',', $submissions )
+		);
+		$gallery = gallery_shortcode( $args );
+		$o .= preg_replace( array( '/<a[^>]*>/', '/<\/a>/' ), '', $gallery );
+		//$o .= do_shortcode( $shortcode );
+	}
+
+	$o .= '</div>';
+
+	return $o;
+}
+
+/*
+ *  Print the pages
+ *
+ */
 
 function xwpc_ui_main( ) {
 	$errors = array( );
@@ -87,6 +160,7 @@ function xwpc_ui_main( ) {
 		<h1>Xubuntu 16.04 Wallpaper Contest</h1>
 
 		<p><strong>Welcome to the Xubuntu 16.04 Wallpaper Contest!</strong><p>
+		<p>No more submissions can be sent. Thanks for participating!</p>
 		<p>If you are new here, start by reading the <a href="<?php echo home_url( '/help/terms/' ); ?>">Terms and Guidelines</a>. After you've done that, you can <a href="<?php echo admin_url( 'admin.php?page=xwpc_new' ); ?>">submit your own entry</a>!</p>
 		<p>Once you have submissions, they will appear below, where you can also delete them if you wish.</p>
 
@@ -139,6 +213,18 @@ function xwpc_ui_new( ) {
 	if( isset( $_POST['_nonce_xwpc_submission'] ) ) {
 		if( check_admin_referer( 'xwpc_submission', '_nonce_xwpc_submission' ) ) {
 			// Check if data is valid
+			if( $_FILES['xwpc-submission']['error'] == 1 ) {
+				// Upload failed
+				$errors[] = 'Error uploading the file. Please be in touch with the contest administrator via the Xubuntu development mailing list.';
+			} else {
+				// Upload itself OK, check if filetype is valid
+				$filetype = mime_content_type( $_FILES['xwpc-submission']['tmp_name'] );
+				$allowed_filetypes = array( 'image/jpg', 'image/jpeg', 'image/png', 'image/svg+xml' );
+				if( !in_array( $filetype, $allowed_filetypes ) ) {
+					$errors[] = 'The filetype is not allowed. Allowed filetypes are JPG, PNG and SVG.';
+				}
+			}
+
 			if( $_POST['xwpc-acceptterms'] != "on" ) {
 				$errors[] = 'You need to accept the Terms and Guidelines.';
 			}
@@ -146,18 +232,9 @@ function xwpc_ui_new( ) {
 				$errors[] = 'Please specify the attribution name.';
 			}
 			if( !$_POST['xwpc-licence'] ) {
-				$errors[] = 'You need to specify a licence.';
+				$errors[] = 'You need to specify a license.';
 			} elseif( $_POST['xwpc-licence'] == 'other' && !$_POST['xwpc-licence-other-details'] ) {
-				$errors[] = 'You need to specify custom licence details.';
-			}
-			if( !$_FILES['xwpc-submission']['size'] ) {
-				$errors[] = 'You need to select a file to upload.';
-			}
-
-			$filetype = mime_content_type( $_FILES['xwpc-submission']['tmp_name'] );
-			$allowed_filetypes = array( 'image/jpg', 'image/jpeg', 'image/png', 'image/svg+xml' );
-			if( !in_array( $filetype, $allowed_filetypes ) ) {
-				$errors[] = 'The filetype is not allowed. Allowed filetypes are JPG, PNG and SVG.';
+				$errors[] = 'You need to specify custom license details.';
 			}
 
 			// Process data if no errors occurred.
@@ -166,15 +243,9 @@ function xwpc_ui_new( ) {
 
 				if( $fu['file'] && !isset( $fu['error'] ) ) {
 					// Add the image to the media library
-					$info = array( );
-
-					$info[] = '<strong>Attribution:</strong> ' . $_POST['xwpc-attribution'];
 					if( $_POST['xwpc-licence'] == 'cc-by' ) {
-						$info[] = '<strong>Licence:</strong> CC-BY-SA 3.0';
-						$licence = 'CC-BY-SA 3.0';
+						$licence = 'CC-BY 3.0';
 					} else {
-						$info[] = '<strong>Licence:</strong> ';
-						$info[] = $_POST['xwpc-licence-other-details'];
 						$licence = $_POST['xwpc-licence-other-details'];
 					}
 
@@ -255,18 +326,18 @@ function xwpc_ui_new( ) {
 						</td>
 					</tr>
 					<tr>
-						<th scope="row">Licence</th>
+						<th scope="row">License</th>
 						<td>
 							<label for="xwpc-licence-ccby">
 								<input id="xwpc-licence-ccby" name="xwpc-licence" type="radio" value="cc-by" />
-								<strong>Creative Commons, CC-BY</strong>
+								<strong>Creative Commons, CC-BY 3.0</strong>
 								<p class="description"><strong>Recommended.</strong> A license that allows the Xubuntu team to use the wallpaper freely in the distribution while always attributing the work to you.</p>
 							</label>
 							<br /><hr /><br />
 							<label for="xwpc-licence-other">
 								<input id="xwpc-licence-other" name="xwpc-licence" type="radio" value="other" />
 								<strong>Other, please specify details below</strong>
-								<p class="description">Please note that the license will be evaluated by the Xubuntu team to make sure it is eligible. If the licence doesn't permit the use that the Xubuntu team would like it to, your submission will be uneligible for the competition.</p>
+								<p class="description">Please note that the license will be evaluated by the Xubuntu team to make sure it is eligible. If the license doesn't permit the use that the Xubuntu team would like it to, your submission will be uneligible for the competition.</p>
 								<br />
 								<textarea name="xwpc-licence-other-details" class="large-text" cols="50" rows="5"></textarea>
 								<p class="description">License name URLs and other details.</p>
@@ -289,42 +360,6 @@ function xwpc_ui_new( ) {
 			</table>
 			<?php wp_nonce_field( 'xwpc_submission', '_nonce_xwpc_submission' ); ?>
 		</form>
-	</div>
-	<?php
-}
-
-function xwpc_ui_terms( ) {
-	?>
-	<div class="wrap">
-		<h1>Terms and Guidelines</h1>
-
-		<h2>Subject Matter</h2>
-		<p>It is important to note Ubuntu – and hence Xubuntu – is shipped to users from every part of the globe. Your images should be considerate of this diversity and refrain from the following.</p>
-		<ul style="list-style-type: disc; margin-left: 1em;">
-			<li>No brand names or trademarks of any kind.</li>
-			<li>No illustrations some may consider inappropriate, offensive, hateful, tortuous, defamatory, slanderous or libelous.</li>
-			<li>No sexually explicit or provocative images.</li>
-			<li>No images of weapons or violence.</li>
-			<li>No alcohol, tobacco, or drug use imagery.</li>
-			<li>No designs which promotes bigotry, racism, hatred or harm against groups or individuals; or promotes discrimination based on race, gender, religion, nationality, disability, sexual orientation or age.</li>
-			<li>No religious, political, or nationalist imagery.</li>
-		</ul>
-
-		<h2>Design Requirements</h2>
-		<ul style="list-style-type: disc; margin-left: 1em;">
-			<li>The final dimension should be 2560 x 1600 pixels.</li>
-			<li>Attribution must be declared if the submission is based on another design.</li>
-		</ul>
-
-		<h2>Background Guidelines</h2>
-		<ul style="list-style-type: disc; margin-left: 1em;">
-			<li>Avoid prominent use of the Xubuntu (or Ubuntu or Xfce) logo. It appears in enough places already.</li>
-			<li>No version numbers. Some individuals may desire to use an older theme, or use the latest theme in their older version of Ubuntu. Let your submission be about choice and do not use version numbers in your artwork.</li>
-			<li>Avoid text, it calls for attention too much and will likely look bad when scaled. Plus it can't be translated easily.</li>
-			<li>Be careful with small patterns, they might become uneven when scaled.</li>
-			<li>Consider how the wallpaper will interact with the panels, icons and windows.</li>
-			<li>Show restraint in your use of color tone and contrast. The wallpaper sets the scene for other elements, it is not the main act.</li>
-		</ul>
 	</div>
 	<?php
 }
@@ -358,12 +393,13 @@ function xwpc_ui_vote( ) {
 					$id = get_the_ID( );
 					$author = get_the_author( );
 					echo '<div class="item" value="' . $id . '">';
-					echo '<div class="image"><a href="' . wp_get_attachment_url( $id ) . '" target="_blank">' . wp_get_attachment_image( $id, 'medium' ) . '</a></div>';
+					$attachment_lg = wp_get_attachment_image_src( $id, 'large' );
+					echo '<div class="image"><a data-featherlight="image" href="' . $attachment_lg[0] . '">' . wp_get_attachment_image( $id, 'medium' ) . '</a></div>';
 					echo '<div class="info">';
 					echo '<h3>' . get_the_title( ) . '</h3>';
-					echo '<p class="sub"><strong>Submitted by:</strong></p><p><a href="http://launchpad.net/~' . $author . '">' . $author . '</a></p>';
-					echo '<p class="sub"><strong>Attribution:</strong></p>' . wpautop( get_post_meta( get_the_ID( ), 'xwpc_attribution', true ) );
-					echo '<p class="sub"><strong>License:</strong></p>' . wpautop( get_post_meta( get_the_ID( ), 'xwpc_licence', true ) );
+//					echo '<p class="sub"><strong>Submitted by:</strong></p><p><a href="http://launchpad.net/~' . $author . '">' . $author . '</a></p>';
+//					echo '<p class="sub"><strong>Attribution:</strong></p>' . wpautop( get_post_meta( get_the_ID( ), 'xwpc_attribution', true ) );
+//					echo '<p class="sub"><strong>License:</strong></p>' . wpautop( get_post_meta( get_the_ID( ), 'xwpc_licence', true ) );
 					echo '</div>';
 					echo '<div class="vote">';
 					$votes = get_post_meta( $id, 'xwpc_votes', true );
@@ -413,10 +449,16 @@ function xwpc_ui_vote_results( ) {
 					$media_query->the_post( );
 					$id = get_the_ID( );
 					$vote_total = get_post_meta( $id, 'xwpc_votes', true );
+					$vote_individual = array_count_values( $vote_total );
+
+					// See if at least one voter has voted +1 and show them
 					if( is_array( $vote_total ) ) {
-						if( array_sum( $vote_total ) > 0 ) {
+						if( in_array( "1", $vote_total ) ) {
+//						if( array_sum( $vote_total ) > 0 ) {
 							$results[$id] = array(
 								'votes' => array_sum( $vote_total ),
+								'votes_plus' => $vote_individual['1'],
+								'votes_minus' => $vote_individual['-1'],
 								'author' => get_the_author( ),
 							);
 						}
@@ -432,8 +474,15 @@ function xwpc_ui_vote_results( ) {
 				echo '<div class="submissions results">';
 				foreach( $results as $id => $data ) {
 					echo '<div class="item" value="' . $id . '">';
-					echo '<div class="result">' . $data['votes'] . '</div>';
-					echo '<div class="image"><a href="' . wp_get_attachment_url( $id ) . '" target="_blank">' . wp_get_attachment_image( $id, 'medium' ) . '</a></div>';
+					echo '<div class="result">';
+					echo '<span class="total">' . $data['votes'] . '</span><hr />';
+					echo '<span class="subtotal plus">+' . $data['votes_plus'] . '</span>';
+					if( $data['votes_minus'] > 0 ) {
+						echo '<span class="subtotal minus">–' . $data['votes_minus'] . '</span>';
+					}
+					echo '</div>';
+					$attachment_lg = wp_get_attachment_image_src( $id, 'large' );
+					echo '<div class="image"><a data-featherlight="image" href="' . $attachment_lg[0] . '">' . wp_get_attachment_image( $id, 'medium' ) . '</a></div>';
 					echo '<div class="info">';
 					echo '<h3>' . get_the_title( $id ) . '</h3>';
 					echo '<p class="sub"><strong>Submitted by:</strong></p><p><a href="http://launchpad.net/~' . $data['author'] . '">' . $data['author'] . '</a></p>';
