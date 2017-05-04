@@ -1,0 +1,104 @@
+body {
+	background-color: #ddd;
+	font-family: 'Ubuntu', sans-serif;
+
+	border-top: 0.4em solid rgba( 0, 0, 0, 0.1 );
+}
+
+/*
+ *  Elements
+ * 
+ */ 
+
+a {
+	color: #2c82dd;
+}
+	#footer a {
+		color: #444;
+	}
+
+h1 {
+	font-size: 200%;
+	margin-top: 0.7em;
+	margin-bottom: 0.5em;
+	line-height: 1.2em;
+}
+
+h2 {
+	display: inline-block;
+	padding: 0;
+	margin: 0.5em 0 1em 0;
+	color: #555;
+}
+	h2.no-js {
+		padding: 0.3em 0 0 0;
+		margin: 1em 0 1.2em 0;
+		border-top: 2px solid rgba( 44, 130, 221, 0.5 );
+	}
+
+h3 {
+	margin: 0;
+}
+
+hr {
+	border: none;
+	border-top: 1px dotted rgba( 0, 0, 0, 0.3 );
+}
+
+table {
+	width: 100%;
+	border-bottom: 1px dotted rgba( 0, 0, 0, 0.1 );
+}
+	table tr {
+		border-top: 1px dotted rgba( 0, 0, 0, 0.1 );
+	}
+		table tbody tr:hover {
+			background-color: rgba( 44, 130, 221, 0.05 );
+		}
+		table td {
+			padding: 0.35em 0.5em;
+		}
+		table th {
+			text-align: left;
+			padding: 0.5em;
+
+			font-weight: bold;
+		}
+
+ul { }
+	ul li { }
+		li ul { padding-left: 2em; }
+
+
+/*
+ *  Layouting
+ *
+ */
+
+.inside {
+	width: 90%;
+	margin: 0 auto;
+}
+
+#header {
+	background-color: #f1f1f1;
+
+	padding: 1px 0 0.5em 0;
+}
+
+#content {
+	background-color: #fff;
+	padding: 1.5em 0;
+
+	box-shadow: 0 0 0.5em rgba( 0, 0, 0, 0.2 );
+}
+
+#footer {
+	padding: 1em 0 2em 0;
+
+	font-size: 90%;
+	color: #777;
+}
+	#footer p {
+		margin-bottom: 0;
+	}

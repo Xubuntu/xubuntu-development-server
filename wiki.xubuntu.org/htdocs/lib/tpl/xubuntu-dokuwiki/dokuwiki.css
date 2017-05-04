@@ -1,0 +1,133 @@
+/*
+ *  Dokuwiki customizations
+ *
+ */
+
+/*  Imitate the button look for action links in the toolbar */
+
+.post-toolbar .tools a.action {
+	display: inline-block;
+
+	margin: 0 1em 0.5em 0;
+	padding: 0.5em 0.75em;
+
+	background-color: #fff;
+	box-shadow: 0 0 5px rgba( 0, 0, 0, 0.1 );
+
+	border: none;
+	border-bottom: 2px solid #ccc;
+}
+	.post-toolbar .tools a.action:hover, .tools a.action:active, .tools a.action:focus {
+		box-shadow: 0 0 5px rgba( 0, 0, 0, 0.3 );
+		border-bottom: 2px solid #999;
+	}
+	.post-toolbar .tools a.action:after {
+		display: block;
+		float: right;
+
+		content: "›";
+		font-weight: 300;
+		font-size: 140%;
+		margin: -0.1em 0 0 0.5em;
+		color: #555;
+	}
+	.post-toolbar .tools a.action.edit,
+	.post-toolbar .tools a.action.index {
+		border-bottom: 2px solid #7cb8f7;
+	}
+		.post-toolbar .tools a.action.edit:hover, .post-toolbar .tools a.action.edit:active, .post-toolbar .tools a.action.edit:focus,
+		.post-toolbar .tools a.action.index:hover, .post-toolbar .tools a.action.index:active, .post-toolbar .tools a.action.index:focus {
+			border-bottom: 2px solid #2c82dd;
+		}
+
+/*  Hide the first header in the page if it's level 5  */
+
+.post-post > h5:nth-child(2) {
+	display: none;
+}
+
+/*  Link to nonexistent page  */
+
+.wikilink2 {
+	color: rgba( 180, 0, 0, 1 );
+}
+
+/*  Icons for interwiki links  */
+
+.interwiki.iw_lphome {
+	background: transparent url(images/launchpad.png) 0 0.3em no-repeat;
+	padding-left: 18px;
+}
+
+.interwiki.iw_ubuntu {
+	background: transparent url(images/ubuntu.png) 0 0.3em no-repeat;
+	padding-left: 20px;
+}
+
+/*  Better Sitemap  */
+
+.sitemap ul {
+	margin-bottom: 0 !important;
+}
+
+/*  Formatting  */
+
+sub { font-variant-position: sub; }
+sup { font-variant-position: super; }
+
+
+/*  Tables  */
+
+table {
+	border-bottom: 1px dotted rgba( 0, 0, 0, 0.1 );
+	font-size: 90%;
+}
+	table th,
+	table td {
+		border: none;
+		border-top: 1px dotted rgba( 0, 0, 0, 0.1 );
+	}
+		table th {
+			padding: 3px;
+			background-color: rgba( 0, 0, 0, 0.03 );
+		}
+		table td {
+			background-color: transparent;
+		}
+
+
+/*  Dokuwiki admin etc.  */
+
+.centeralign {
+	text-align: left;
+}
+
+textarea#wiki__text {
+	width: 100%;
+}
+
+fieldset legend:first-child {
+	/* A variation of the h2 look */
+	display: block;
+	width: 100%;
+
+	margin: 1em 0 0.5em 0;
+	padding-top: 0.2em;
+	line-height: 1.4em;
+
+	font-size: 140%;
+	border-top: 1px dotted #ccc;
+}
+
+button[disabled="disabled"] {
+	display: none;
+}
+
+#acl__detail {
+	height: auto;
+}
+
+#config__manager fieldset {
+	margin: 0;
+	padding: 0;
+}

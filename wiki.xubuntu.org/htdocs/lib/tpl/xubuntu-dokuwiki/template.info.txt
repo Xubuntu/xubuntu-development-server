@@ -1,0 +1,7 @@
+base     xubuntu
+author   Pasi Lallinaho
+email    pasi@shimmerproject.org
+date     2016-01-08
+name     DokuWiki template for Xubuntu
+desc     A simple, clean Dokuwiki template
+url      http://wiki.xubuntu.org/

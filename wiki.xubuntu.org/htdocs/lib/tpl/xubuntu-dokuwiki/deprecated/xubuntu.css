@@ -1,0 +1,222 @@
+@import "inc-dw/_fileuploader.css";
+@import "inc-dw/_media_fullscreen.css";
+@import "inc-dw/_media_popup.css";
+
+body {
+	border-top: none;
+}
+
+#header {
+	border-top: 0.4em solid rgba( 0, 0, 0, 0.1 );
+}
+
+#content {
+	position: relative;
+	min-height: 300px;
+
+	line-height: 1.65em;
+	padding-bottom: 3em;
+}
+	#content #wiki_page > h5:first-child {
+		display: none;
+	}
+
+#wiki_page { }
+	#wiki_page p,
+	#wiki_page ul,
+	#wiki_page ol {
+		margin-bottom: 1em;
+	}
+
+	#wiki_page h1,
+	#wiki_page h2,
+	#wiki_page h3,
+	#wiki_page h4,
+	#wiki_page h5 {
+		margin: 1em 0;
+	}
+		#wiki_page h1 { font-size: 200%; }
+		#wiki_page h2 { font-size: 160%; }
+		#wiki_page h3 { font-size: 135%; }
+		#wiki_page h4 { font-size: 110%; }
+		#wiki_page h5 { font-size: 100%; font-weight: bold; }
+
+	#wiki_page code {
+		font-family: monospace;
+		font-size: 110%;
+	}
+	#wiki_page pre {
+		font-family: monospace;
+		font-size: 110%;
+		white-space: pre-wrap;
+
+		background-color: rgba( 17, 91, 171, 0.05 );
+
+		padding: 0.2em 0.5em;
+	}
+
+	#wiki_page sub { font-variant-position: sub; }
+	#wiki_page sup { font-variant-position: super; }
+
+	#wiki_page ul li {
+		list-style-type: none;
+		margin-left: 1em;
+	}
+		#wiki_page ul li:before {
+			display: block;
+			float: left;
+
+			width: 0.7em;
+			margin-left: -0.7em;
+			margin-top: -0.03em; /* wiki */
+			content: "›";
+			font-weight: 300;
+			font-size: 140%;
+			color: #555;
+		}
+
+.wiki_toolbar {
+	background-color: rgba( 0, 0, 0, 0.05 );
+}
+	.wiki_toolbar.toolbar_top {
+		margin: -1.5em 0 1.5em 0;
+	}
+	.wiki_toolbar.toolbar_bottom {
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+/*		margin: 1.5em 0 -1.5em 0; */
+	}
+	.wiki_toolbar h2 {
+		margin: 0;
+		padding-top: 0.15em;
+	}
+		.wiki_toolbar h2 a {
+			color: #222;
+		}
+	.wiki_toolbar ul {
+		float: left;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+		.wiki_toolbar ul.right {
+			float: right;
+		}
+		.wiki_toolbar li {
+			display: inline;
+			margin: 0 0.5em 0 0;
+		}
+			.wiki_toolbar li:last-child {
+				margin-right: 0;
+			}
+			.wiki_toolbar li.nolink {
+				display: inline-block;
+				padding: 0.2em 0;
+			}
+			.wiki_toolbar li a {
+				display: inline-block;
+				background-color: rgba( 0, 0, 0, 0.05 );
+				padding: 0.2em 0.4em;
+			}
+				.wiki_toolbar li.nolinkbg a {
+					background-color: transparent;
+					padding: 0.2em 0;
+				}
+
+	.wiki_toolbar form {
+		display: inline;
+	}
+
+#wiki_title {
+	background-color: rgba( 17, 91, 171, 0.1 );
+}
+
+
+/* dokuwiki stuff */
+#wiki__text {
+	width: 100%;
+}
+
+button[disabled="disabled"] {
+	display: none;
+}
+
+.wikilink2 {
+	color: rgba( 180, 0, 0, 1 );
+}
+
+.bchead {
+	display: none;
+}
+
+fieldset {
+	border: 1px solid rgba( 0, 0, 0, 0.1 );
+	border-radius: 4px;
+	padding: 1em 1.3em;
+	margin-bottom: 0.5em;
+}
+
+
+/* dokuwiki admin */
+
+div.edit_user {
+	width: 45%;
+	margin-right: 2.5%;
+	float: left;
+}
+	div.edit_user + div.edit_user {
+		margin-right: 0;
+		margin-left: 2.5%;
+	}
+
+div.import_users {
+	clear: both;
+}
+
+/* dokuwiki login */
+
+#dw__login {
+	text-align: left;
+}
+
+/* when loaded in iframe... */
+
+body.iframe {
+	background-color: #fafafa;
+}
+	body.iframe .inside {
+		width: 100%;
+		padding: 0 1.5em;
+		box-sizing: border-box;
+	}
+
+body.iframe #header,
+body.iframe #footer {
+	display: none;
+}
+
+body.iframe #content {
+	box-shadow: none;
+	background-color: #fafafa;
+}
+	body.iframe #content .wiki_toolbar {
+		position: fixed;
+		z-index: 1000;
+		width: 100%;
+		background-color: #fff;
+	}
+		body.iframe #content .toolbar_top {
+			top: 1.4em;
+			border-bottom: 1px solid rgba( 0, 0, 0, 0.1 );
+		}
+		body.iframe #content .toolbar_bottom {
+			bottom: 0;
+			border-top: 1px solid rgba( 0, 0, 0, 0.1 );
+		}
+
+/* bettersitemap */
+
+.sitemap ul {
+	margin-bottom: 0 !important;
+}

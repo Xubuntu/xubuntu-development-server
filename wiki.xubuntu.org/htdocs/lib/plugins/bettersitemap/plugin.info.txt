@@ -1,0 +1,8 @@
+base   bettersitemap
+author Pasi Lallinaho
+email  pasi@shimmerproject.org
+date   2016-02-12
+name   Better Sitemap
+desc   Replaces the regular sitemap. In the improved sitemap, namespaces are shown with titles from "start" pages and the "start" pages are hidden from the submenus.
+url    http://wiki.xubuntu.org/
+
