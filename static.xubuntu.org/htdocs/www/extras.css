@@ -1,0 +1,11 @@
+/* Make sure images in post do not overlap the content area */
+.post-post img,
+.post-post figure {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Make sure all submenus are left-aligned by default */
+.navigation.nd li:last-child .sub-menu {
+	left: 0;
+}
