@@ -13,12 +13,7 @@ $menu = array(
 		'title' => 'Calendar',
 		'url' => 'http://dev.xubuntu.org/#tab-calendar'
 	),
-	'irc' => array(
-		'title' => 'IRC',
-		'url' => 'http://webchat.freenode.net/?channels=xubuntu-devel&nick=tracker.&prompt=1&uio=MTE9MjE131',
-		'target' => '_blank',
-	),
-);
+;
 
 dev_xubuntu_org_menu( $menu );
 

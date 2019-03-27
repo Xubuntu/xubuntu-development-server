@@ -64,7 +64,6 @@
 		<p>
 			Work item data from <a href="https://launchpad.net/">Launchpad</a>. The cache was last updated at <?php echo get_cache_time( $series['series'] ); ?>.
 			Calendar data is maintained in <a href="https://www.google.com/calendar/">Google Calendar</a>.
-			Webchat is provided by <a href="http://freenode.net/">Freenode</a>.
 		</p>
 	</div>
 </div>
