@@ -9,10 +9,10 @@
 	<title>Xubuntu Developers</title>
 	<meta charset="UTF-8" />
 
-	<link rel="stylesheet" href="http://dev.xubuntu.org/common/reset.css" media="all" />
-	<link rel="stylesheet" href="http://dev.xubuntu.org/common/style.css" media="all" />
-	<link rel="stylesheet" href="http://dev.xubuntu.org/common/style-dev.css" media="all" />
-	<link rel="stylesheet" href="http://dev.xubuntu.org/common/style-common.css" media="all" />
+	<link rel="stylesheet" href="https://dev.xubuntu.org/common/reset.css" media="all" />
+	<link rel="stylesheet" href="https://dev.xubuntu.org/common/style.css" media="all" />
+	<link rel="stylesheet" href="https://dev.xubuntu.org/common/style-dev.css" media="all" />
+	<link rel="stylesheet" href="https://dev.xubuntu.org/common/style-common.css" media="all" />
 
 	<link rel="stylesheet" href="style/style.css" media="all" />
 

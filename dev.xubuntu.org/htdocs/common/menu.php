@@ -13,7 +13,7 @@ $menu = array(
 		'title' => 'Calendar',
 		'url' => 'http://dev.xubuntu.org/#tab-calendar'
 	),
-;
+);
 
 dev_xubuntu_org_menu( $menu );
 
